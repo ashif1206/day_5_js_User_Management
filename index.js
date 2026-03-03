@@ -3,15 +3,29 @@ const emailInp = document.getElementById("emailInp");
 const mobileInp = document.getElementById("mobileInp");
 const passInp = document.getElementById("passInp");
 const addUser = document.getElementById("addUser");
+const searchInp = document.getElementById("searchInp");
+const searchUser = document.getElementById("searchUser");
 
 const tbody = document.getElementById("tbody");
 
 let userData = JSON.parse(localStorage.getItem("userData")) || [];
 let editIndex = null;
 
-
 showUserData(userData);
 
+searchInp.addEventListener("input", function () {
+  if (searchInp.value !== "") {
+    const searchUser = searchInp.value.toLowerCase();
+    const filterData = userData.filter(function (user) {
+      return user.name.toLowerCase().includes(searchUser) || user.email.toLowerCase().includes(searchUser);
+    });
+    localStorage.setItem("userData", JSON.stringify(filterData));
+    showUserData(filterData);
+  }else{
+    localStorage.setItem("userData", JSON.stringify(userData));
+    showUserData(userData);
+  }
+});
 
 addUser.addEventListener("click", addUserDetails);
 
